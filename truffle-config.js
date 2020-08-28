@@ -1,4 +1,3 @@
-
 var HDWalletProvider = require("truffle-hdwallet-provider");
 require("dotenv").config();
 var mnemonic = process.env.mnemonic;
@@ -6,18 +5,19 @@ var mnemonic = process.env.mnemonic;
 module.exports = {
   networks: {
     development: {
-      host: "192.168.1.20",
+      host: "127.0.0.1",
       port: 7545,
-      gas: 4612388,
+      gas: 700000,
       network_id: "*", // Match any network id
     },
 
     matic: {
-      provider: () => new HDWalletProvider(mnemonic, `https://rpc-mumbai.matic.today`),
+      provider: () =>
+        new HDWalletProvider(mnemonic, `https://rpc-mumbai.matic.today`),
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,
-      skipDryRun: true
+      skipDryRun: true,
     },
     // ropsten: {
     //   provider: function() {
@@ -26,7 +26,6 @@ module.exports = {
     //   network_id: 3,
     //   gas: 4500000,
     // },
-
   },
   contracts_directory: "contracts/",
   contracts_build_directory: "abis/",

@@ -3,14 +3,13 @@ pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
 contract Fps {
-    mapping(string => string[]) productMap;
     mapping(string => Product) product;
     mapping(string => string) barProductMap;
     mapping(string => string[]) companyProductMap;
 
     struct Product {
-        string productId;
-        string productName;
+        string id;
+        string name;
         string picture;
         string description;
     }
@@ -18,15 +17,15 @@ contract Fps {
     //add product to the product list and also to the company map
     function createNewProduct(
         string memory id,
-        string memory productName,
+        string memory name,
         string memory picture,
         string memory description,
         string memory companyName
     ) public {
-        companyProductMap[companyName].push(productName);
+        companyProductMap[companyName].push(id);
         Product memory p;
-        p.productId = id;
-        p.productName = productName;
+        p.id = id;
+        p.name = name;
         p.picture = picture;
         p.description = description;
         product[id] = p;
@@ -35,9 +34,15 @@ contract Fps {
     function getProductByCompany(string memory companyName)
         public
         view
-        returns (string[] memory)
+        returns (Product[] memory)
     {
-        return companyProductMap[companyName];
+        string[] memory productList = companyProductMap[companyName];
+        Product[] memory productArr = new Product[](productList.length);
+        for (uint256 i = 0; i < productList.length; i++) {
+            productArr[i] = product[productList[i]];
+        }
+
+        return productArr;
     }
 
     // creates instance of a product type
