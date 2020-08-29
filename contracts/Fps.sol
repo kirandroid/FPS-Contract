@@ -6,12 +6,33 @@ contract Fps {
     mapping(string => Product) product;
     mapping(string => string) barProductMap;
     mapping(string => string[]) companyProductMap;
+    mapping(string => Company) company;
 
     struct Product {
         string id;
         string name;
         string picture;
         string description;
+    }
+
+    struct Company {
+        string id;
+        string name;
+    }
+
+    function createNewCompany(string memory id, string memory companyName)
+        public
+    {
+        Company memory comp = Company(id, companyName);
+        company[id] = comp;
+    }
+
+    function getCompanyDetail(string memory id)
+        public
+        view
+        returns (Company memory)
+    {
+        return company[id];
     }
 
     //add product to the product list and also to the company map
